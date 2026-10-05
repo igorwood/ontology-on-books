@@ -1,0 +1,24 @@
+// 应用型书籍 → 本体驱动系统 · 六阶段工作流（与 workflow.mmd 等价的 Graphviz 版）
+// Render:  dot -Tpng workflow.dot -o workflow.png   （或 -Tsvg 出矢量图）
+digraph workflow {
+  rankdir=LR;
+  bgcolor="white";
+  node [shape=box, style="rounded,filled", fillcolor="#eef3fb", color="#4a6fa5",
+        fontname="PingFang SC", fontsize=12, margin="0.16,0.09"];
+  edge [color="#7a889c", fontname="PingFang SC", fontsize=10];
+
+  SRC [label="源文件 Source\nEPUB / PDF / HTML", fillcolor="#f6f7f9"];
+  P0  [label="P0 解析\nParse"];
+  P1  [label="P1 结构抽取\nStructure"];
+  P2  [label="P2 语义归一\nOntologize", fillcolor="#fdf1d8", color="#c9962b"];
+  P3  [label="P3 入库\nStore"];
+  P4  [label="P4 应用\nApply", fillcolor="#e6f6ea", color="#3f9a55"];
+  P5  [label="P5 验收\nValidate"];
+  P6  [label="P6 运维 Operate\n编排/缓存/续跑/脚本", fillcolor="#f3e9fb", color="#8a5fb0"];
+
+  SRC -> P0 -> P1 -> P2 -> P3 -> P4 -> P5;
+  P5 -> P2 [style=dashed, label="回环 fix"];
+  P6 -> P0 [style=dotted];
+  P6 -> P2 [style=dotted];
+  P6 -> P3 [style=dotted];
+}

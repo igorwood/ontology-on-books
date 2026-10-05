@@ -1,0 +1,15 @@
+%% 应用型书籍 → 本体驱动系统 · 六阶段工作流
+%% Applied-book → ontology-driven system: 6-stage workflow
+%% 渲染 / render:  npx -y @mermaid-js/mermaid-cli -i workflow.mmd -o workflow.png
+%% 其余图（三层分离 / 四能力 / 建议流程）见 METHODOLOGY.md
+flowchart LR
+  SRC["源文件 Source<br/>EPUB / PDF / HTML"] --> P0["P0 解析 Parse"]
+  P0 --> P1["P1 结构抽取 Structure"]
+  P1 --> P2["P2 语义归一 Ontologize"]
+  P2 --> P3["P3 入库 Store"]
+  P3 --> P4["P4 应用 Apply"]
+  P4 --> P5["P5 验收 Validate"]
+  P5 -. "回环 fix" .-> P2
+  P6["P6 运维 Operate<br/>编排/缓存/续跑/脚本"] -.-> P0
+  P6 -.-> P2
+  P6 -.-> P3
