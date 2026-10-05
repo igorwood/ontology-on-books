@@ -17,6 +17,8 @@ ontology_playbook/
 ├── TEMPLATE_CHECKLIST.md        迁移到新书的逐步勾选清单 / migration checklist
 ├── workflow.mmd                 六阶段工作流 Mermaid 图源
 ├── workflow.dot / .png / .svg   同一图的 Graphviz 源 + 离线位图/矢量图
+├── LICENSE                      MIT 许可证
+├── .github/workflows/render-diagrams.yml   CI：改动 .dot 时自动渲染图
 └── scaffold/
     ├── ontology_scaffold.py     可复用骨架（四阶段 + 四能力，纯 stdlib，可运行 demo）
     └── README.md                脚手架说明与"如何照搬"
@@ -82,3 +84,10 @@ npx -y @mermaid-js/mermaid-cli -i workflow.mmd -o workflow.png
   归一覆盖率取决于词表维护。详见 `METHODOLOGY.md` §7。
 
 > 版本 / version：playbook v1（2026-10）。迁移后请按你的领域替换词表并重跑归一。
+
+---
+
+## 许可证 / License
+
+MIT —— 见 [`LICENSE`](LICENSE)。中文流程图在 macOS 用 PingFang SC 渲染；
+CI（`.github/workflows/render-diagrams.yml`）会在 `workflow.dot` 变化时改用 Noto Sans CJK SC 自动重渲染。

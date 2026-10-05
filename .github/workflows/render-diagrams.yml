@@ -1,0 +1,40 @@
+name: render-diagrams
+
+# 当 workflow.dot 变化（或手动触发）时，用 graphviz 重新渲染 PNG/SVG 并提交回仓库
+# Re-render workflow.png / workflow.svg from workflow.dot on change.
+on:
+  push:
+    paths:
+      - workflow.dot
+      - .github/workflows/render-diagrams.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install graphviz + CJK font
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y graphviz fonts-noto-cjk
+
+      - name: Render PNG/SVG
+        run: |
+          # 用 CI 上的 CJK 字体替换本机的 PingFang SC，保证中文不缺失
+          sed -i 's/PingFang SC/Noto Sans CJK SC/g' workflow.dot
+          dot -Tpng workflow.dot -o workflow.png
+          dot -Tsvg workflow.dot -o workflow.svg
+          ls -l workflow.png workflow.svg
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add workflow.png workflow.svg
+          git diff --staged --quiet || git commit -m "chore: auto-render diagrams (graphviz)"
+          git push
